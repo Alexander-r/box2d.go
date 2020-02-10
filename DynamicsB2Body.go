@@ -828,6 +828,10 @@ func (body B2Body) ShouldCollide(other *B2Body) bool {
 		return false
 	}
 
+	return body.ShouldCollideConnected(other)
+}
+
+func (body B2Body) ShouldCollideConnected(other *B2Body) bool {
 	// Does a joint prevent collision?
 	for jn := body.M_jointList; jn != nil; jn = jn.Next {
 		if jn.Other == other {
@@ -891,6 +895,7 @@ func (body *B2Body) SetActive(flag bool) {
 		}
 
 		// Contacts are created the next time step.
+		body.M_world.M_flags |= B2World_Flags.E_newFixture
 	} else {
 		body.M_flags &= ^B2Body_Flags.E_activeFlag
 

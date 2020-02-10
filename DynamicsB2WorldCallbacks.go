@@ -69,6 +69,19 @@ type B2ContactFilter struct {
 // Return true if contact calculations should be performed between these two shapes.
 // If you implement your own collision filter you may want to build from this implementation.
 func (cf *B2ContactFilter) ShouldCollide(fixtureA *B2Fixture, fixtureB *B2Fixture) bool {
+	bodyA := fixtureA.GetBody()
+	bodyB := fixtureB.GetBody()
+
+	// At least one body should be dynamic or kinematic.
+	if bodyB.GetType() == B2BodyType.B2_staticBody && bodyA.GetType() == B2BodyType.B2_staticBody {
+		return false
+	}
+
+	// Does a joint prevent collision?
+	if bodyB.ShouldCollideConnected(bodyA) == false {
+		return false
+	}
+
 	filterA := fixtureA.GetFilterData()
 	filterB := fixtureB.GetFilterData()
 

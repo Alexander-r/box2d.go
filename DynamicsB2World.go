@@ -659,7 +659,6 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 				typeA := bA.M_type
 				typeB := bB.M_type
-				B2Assert(typeA == B2BodyType.B2_dynamicBody || typeB == B2BodyType.B2_dynamicBody)
 
 				activeA := bA.IsAwake() && typeA != B2BodyType.B2_staticBody
 				activeB := bB.IsAwake() && typeB != B2BodyType.B2_staticBody

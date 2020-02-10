@@ -97,14 +97,6 @@ func (mgr *B2ContactManager) Collide() {
 
 		// Is this contact flagged for filtering?
 		if (c.GetFlags() & B2Contact_Flag.E_filterFlag) != 0x0000 {
-			// Should these bodies collide?
-			if bodyB.ShouldCollide(bodyA) == false {
-				cNuke := c
-				c = cNuke.GetNext()
-				mgr.Destroy(cNuke)
-				continue
-			}
-
 			// Check user filtering.
 			if mgr.M_contactFilter != nil && mgr.M_contactFilter.ShouldCollide(fixtureA, fixtureB) == false {
 				cNuke := c
@@ -190,11 +182,6 @@ func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB 
 		}
 
 		edge = edge.Next
-	}
-
-	// Does a joint override collision? Is at least one body dynamic?
-	if bodyB.ShouldCollide(bodyA) == false {
-		return
 	}
 
 	// Check user filtering.
